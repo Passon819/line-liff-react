@@ -1,0 +1,43 @@
+.connect-page {
+  padding: 0 8% 0 8%;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: end;
+  align-items: end;
+  margin-top: 15px;
+}
+
+h1 {
+  font-size: 14vw;
+  margin: 0;
+}
+
+h3 {
+  font-size: 7.5vw;
+  margin: 0 0 1em 0;
+}
+
+.logo-org {
+  width: 20%;
+  height: 20%;
+}
+
+.user-container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin: 0 0 5vh 0;
+}
+
+.user-container p {
+  font-size: 4vw;
+}
+
+.picture-user {
+  border-radius: 50%;
+  width: 15%;
+  height: 15%;
+  margin: 0 0 0 2vw;
+}

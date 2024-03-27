@@ -1,128 +1,104 @@
-import React, { Component } from 'react';
+import { useEffect, useState } from "react";
+import ConnectPage from "./pages/ConnectPage";
+import ConnectedPage from "./pages/ConnectedPage";
+import { API_URL } from "./utils/BaseUrl";
+import toast, { Toaster } from "react-hot-toast";
 
 const liff = window.liff;
-const liffid ='2001682725-4xEPQ6rl';
+const liffid = "2001682725-4xEPQ6rl";
 
-class App extends Component {
+const errorToast = (message) => toast.error(message, { duration: 10000 });
 
-  constructor(props) {
-    super(props);
+function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [profileData, setProfileData] = useState({
+    userId: "",
+    displayName: "",
+    pictureUrl: "",
+    statusMessage: "",
+    language: "",
+    basic_id: "",
+  });
+  const [connectAccData, setConnectAccData] = useState(null);
 
-    this.state = {
-      userLineID: '',
-      name: '',      
-      pictureUrl: '',
-      statusMessage: '',
-      language: '',
-      message: '',
-    };
-  }
-
-  componentDidMount = async () => {
-    await liff.init({ liffId: `${liffid}` }).catch(err => { throw err });
-    if (liff.isLoggedIn()) {
-      let getProfile = await liff.getProfile();
-      let getLanguage = await liff.getLanguage();
-      console.log('getProfile=>',getProfile);
-      this.setState({
-        userLineID: getProfile.userId,
-        name: getProfile.displayName,        
-        pictureUrl: getProfile.pictureUrl,
-        statusMessage: getProfile.statusMessage,
-        language: getLanguage,
-      });
-    } else {
-      liff.login();
+  const liffInitData = async () => {
+    try {
+      await liff.init({ liffId: `${liffid}` });
+      if (liff.isLoggedIn()) {
+        let getProfile = await liff.getProfile();
+        let getLanguage = await liff.getLanguage();
+        console.log("getProfile=>", getProfile);
+        setProfileData({
+          ...profileData,
+          userId: getProfile.userId,
+          displayName: getProfile.displayName,
+          pictureUrl: getProfile.pictureUrl,
+          statusMessage: getProfile.statusMessage,
+          language: getLanguage,
+        });
+      } else {
+        liff.login();
+      }
+    } catch (err) {
+      console.error("liffInitData Error:", err);
+      errorToast(err.message);
     }
-  }
-
-  handleTextChange = (event) => {
-    this.setState({ message: event.target.value });
   };
 
-  
-  
-  handleSendClick = () => {
-    const { userLineID, name, pictureUrl, statusMessage, language, message } = this.state;
-
-    // Send the data to your backend API
-    // You need to replace 'your-backend-api-endpoint' with the actual endpoint URL
-    fetch('https://3d53-171-96-36-213.ngrok-free.app/api/v1/line/line-profile-from-liff', {
-      method: 'POST',
+  //${profileData.userId}  //U30fwhfoesdpbjkophfoewfno
+  const fetchData = () => {
+    console.log("profileData in fetchData:", profileData);
+    fetch(`${API_URL}/line/${profileData.userId}`, {
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "ngrok-skip-browser-warning": "69420",
       },
-      body: JSON.stringify({
-        userLineID,
-        name,        
-        pictureUrl,
-        statusMessage,
-        language,
-        message,
-      }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle the response from your backend
-        console.log('Backend response:', data);
+      .then((response) => {
+        // const contentType = response.headers.get("content-type");
+        // console.log("contentType:", contentType);
+        // console.log("response status:", response.status);
+        return response.json();
+      })
+      .then((_data) => {
+        console.log("response status:", _data.status);
+        console.log("Get connect accounts:", _data);
+        const { data } = _data;
+        setConnectAccData(data);
+        setIsLoading(false);
       })
       .catch((error) => {
-        console.error('Error sending data to backend:', error);
+        console.error("Error to get connect accounts:", error);
+        errorToast(error.message);
       });
   };
 
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <div className="support">
-            <p>Line ID: {this.state.userLineID}</p>
-            <p>Name: {this.state.name}</p>
-            <p>Status Message: {this.state.statusMessage}</p>
-            <p>Language: {this.state.language}</p>
-            <img alt='pic' src={this.state.pictureUrl} width="40%" height="40%"/>
-            <center>
-                <br/><br/>
-                <input
-                  type="text"
-                  placeholder="Enter your basic id"
-                  value={this.state.message}
-                  onChange={this.handleTextChange}
-                />
-                <button onClick={this.handleSendClick}>Send</button>
-            </center>
-            
-          </div>
-        </header>
-      </div>
-    );
-  }
+  useEffect(() => {
+    liffInitData();
+  }, []);
+
+  useEffect(() => {
+    if (profileData.userId !== "" && connectAccData == null) {
+      console.log("fetchData call");
+      fetchData();
+    }
+  }, [profileData.userId]);
+
+  return (
+    <div>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : connectAccData ? (
+        <ConnectedPage
+          profileData={profileData}
+          connectAccData={connectAccData}
+        />
+      ) : (
+        <ConnectPage profileData={profileData} />
+      )}
+      <Toaster />
+    </div>
+  );
 }
 
 export default App;
-
-// import logo from './logo.svg';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
