@@ -1,0 +1,48 @@
+.connected-page {
+  padding: 0 8% 0 8%;
+}
+
+.connected-user-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  margin: 0 0 5vh 0;
+}
+
+.connected-user-container p {
+  font-size: 5vw;
+  margin: 0;
+}
+
+.connected-picture-user {
+  border-radius: 50%;
+  width: 25%;
+  height: 25%;
+  margin: 0;
+}
+
+.item-connected {
+  list-style-type: none;
+  padding: 0;
+  margin: 4.5vw;
+}
+
+.item-connected li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 3.5vw 0;
+  font-size: 3vw;
+}
+
+.connected-endline {
+  width: 90%;
+  margin-top: 10%;
+}
+
+.connected-endtext {
+  text-align: center;
+  color: #858585;
+  font-size: 2vw;
+}

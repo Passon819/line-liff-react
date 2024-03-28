@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import ConnectPage from "./pages/ConnectPage";
-import ConnectedPage from "./pages/ConnectedPage";
 import { API_URL } from "./utils/BaseUrl";
 import toast, { Toaster } from "react-hot-toast";
+
+import ConnectPage from "./pages/ConnectPage";
+import ConnectedPage from "./pages/ConnectedPage";
 
 const liff = window.liff;
 const liffid = "2001682725-4xEPQ6rl";
 
+// define use toast
 const errorToast = (message) => toast.error(message, { duration: 10000 });
 
 function App() {
@@ -27,7 +29,6 @@ function App() {
       if (liff.isLoggedIn()) {
         let getProfile = await liff.getProfile();
         let getLanguage = await liff.getLanguage();
-        console.log("getProfile=>", getProfile);
         setProfileData({
           ...profileData,
           userId: getProfile.userId,
@@ -92,6 +93,7 @@ function App() {
         <ConnectedPage
           profileData={profileData}
           connectAccData={connectAccData}
+          fetchData={fetchData}
         />
       ) : (
         <ConnectPage profileData={profileData} />

@@ -43,7 +43,7 @@ function ConnectPage(props) {
 
     setBasicIdValid(true);
 
-    // Send the data to backend API. Replace 'your-backend-api-endpoint'
+    // Send the data to backend API. Replace backend-api-endpoint
     const connectAcc = fetch(`${API_URL}/line/line-profile-from-liff`, {
       method: "POST",
       headers: {
@@ -62,7 +62,7 @@ function ConnectPage(props) {
       .then((data) => {
         console.log("Backend response:", data);
         if (data.status === 201) {
-          toast.success(data.message);
+          toast.success("Success");
         } else {
           toast(data.message, {
             icon: "⚠️",
