@@ -1,5 +1,5 @@
 const defaultConfig = {
-  liffid: "2001682725-4xEPQ6rl",
+  liffid: "",
 };
 
 export default defaultConfig;

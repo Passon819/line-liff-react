@@ -7,7 +7,7 @@ import ConnectPage from "./pages/ConnectPage";
 import ConnectedPage from "./pages/ConnectedPage";
 
 const liff = window.liff;
-const liffid = defaultConfig.liffid;
+const liffid = process.env.REACT_APP_LIFFID;
 
 // define use toast
 const errorToast = (message) => toast.error(message, { duration: 10000 });
