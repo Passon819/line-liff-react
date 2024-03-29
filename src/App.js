@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { API_URL } from "./utils/BaseUrl";
+import defaultConfig from "./utils/configs";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
 import ConnectPage from "./pages/ConnectPage";
 import ConnectedPage from "./pages/ConnectedPage";
 
 const liff = window.liff;
-const liffid = "2001682725-4xEPQ6rl";
+const liffid = defaultConfig.liffid;
 
 // define use toast
 const errorToast = (message) => toast.error(message, { duration: 10000 });
@@ -87,7 +89,40 @@ function App() {
 
   return (
     <div>
-      {isLoading ? (
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              isLoading ? (
+                <div>Loading...</div>
+              ) : connectAccData ? (
+                <Navigate to="/connected" />
+              ) : (
+                <Navigate to="/connect" />
+              )
+            }
+          />
+          <Route
+            path="/connect"
+            element={
+              <ConnectPage profileData={profileData} fetchData={fetchData} />
+            }
+          />
+          <Route
+            path="/connected"
+            element={
+              <ConnectedPage
+                profileData={profileData}
+                connectAccData={connectAccData}
+                fetchData={fetchData}
+              />
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+
+      {/* {isLoading ? (
         <div>Loading...</div>
       ) : connectAccData ? (
         <ConnectedPage
@@ -96,8 +131,8 @@ function App() {
           fetchData={fetchData}
         />
       ) : (
-        <ConnectPage profileData={profileData} />
-      )}
+        <ConnectPage profileData={profileData} fetchData={fetchData} />
+      )} */}
       <Toaster />
     </div>
   );

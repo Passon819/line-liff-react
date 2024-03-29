@@ -1,7 +1,14 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import logo from "../assets/tecmove-logo.png";
 import "./ConnectedPage.css";
 import ItemConnected from "../components/ItemConnected";
+
+const linkStyle = {
+  fontSize: "3vw",
+  textDecoration: "none",
+  color: "#4682b4",
+};
 
 function ConnectedPage(props) {
   // props data
@@ -31,6 +38,9 @@ function ConnectedPage(props) {
         />
         <p>{profileData.displayName}</p>
       </div>
+      <Link to="/connect" style={linkStyle}>
+        NEW CONNECT
+      </Link>
 
       {connectAccData ? (
         <ul className="item-connected">

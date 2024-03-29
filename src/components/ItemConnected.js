@@ -9,7 +9,7 @@ const errorToast = (message) => toast.error(message, { duration: 10000 });
 
 const ItemConnected = (props) => {
   // props data
-  const { profileData, displayName, basic_id, open } = props;
+  const { profileData, AccountList, basic_id, open } = props;
   // props function
   const { fetchData, setOpen, disconnectClick, disconnectClose } = props;
 
@@ -56,7 +56,7 @@ const ItemConnected = (props) => {
 
   return (
     <li>
-      {displayName}
+      {AccountList.display_name}
       <span>
         <Box
           sx={{
