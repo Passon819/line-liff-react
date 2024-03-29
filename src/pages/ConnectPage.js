@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { API_URL } from "../utils/BaseUrl";
 import logo from "../assets/tecmove-logo.png";
 import "./ConnectPage.css";
@@ -22,12 +21,10 @@ function ConnectPage(props) {
   // props data
   const { profileData } = props;
   // props function
-  const { fetchData } = props;
+  const { fetchData, setIsNewConnectFunc } = props;
   const [basicId, setBasicId] = useState(profileData.basic_id);
   const [basicIdError, setBasicIdError] = useState(false);
   const [basicIdValid, setBasicIdValid] = useState(true);
-
-  const navigate = useNavigate();
 
   const handleTextChange = (event) => {
     setBasicId(event.target.value);
@@ -71,7 +68,7 @@ function ConnectPage(props) {
           toast.success("Success");
           // new fetch ConnectAccData in App
           fetchData();
-          navigate("/connected", { replace: true });
+          setIsNewConnectFunc();
         } else {
           toast(data.message, {
             icon: "⚠️",
@@ -106,6 +103,10 @@ function ConnectPage(props) {
       }
     );
   };
+
+  // useEffect(() => {
+  //   setIsNewConnectFunc();
+  // }, []);
 
   return (
     <div className="connect-page">

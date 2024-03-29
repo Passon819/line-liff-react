@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { API_URL } from "./utils/BaseUrl";
 import defaultConfig from "./utils/configs";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
 import ConnectPage from "./pages/ConnectPage";
@@ -48,9 +47,8 @@ function App() {
     }
   };
 
-  //${profileData.userId}  //U30fwhfoesdpbjkophfoewfno
   const fetchData = () => {
-    console.log("profileData in fetchData:", profileData);
+    // console.log("profileData in fetchData:", profileData);
     fetch(`${API_URL}/line/${profileData.userId}`, {
       method: "GET",
       headers: {
@@ -64,8 +62,8 @@ function App() {
         return response.json();
       })
       .then((_data) => {
-        console.log("response status:", _data.status);
-        console.log("Get connect accounts:", _data);
+        // console.log("response status:", _data.status);
+        // console.log("Get connect accounts:", _data);
         const { data } = _data;
         setConnectAccData(data);
         setIsLoading(false);
@@ -89,40 +87,7 @@ function App() {
 
   return (
     <div>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              isLoading ? (
-                <div>Loading...</div>
-              ) : connectAccData ? (
-                <Navigate to="/connected" />
-              ) : (
-                <Navigate to="/connect" />
-              )
-            }
-          />
-          <Route
-            path="/connect"
-            element={
-              <ConnectPage profileData={profileData} fetchData={fetchData} />
-            }
-          />
-          <Route
-            path="/connected"
-            element={
-              <ConnectedPage
-                profileData={profileData}
-                connectAccData={connectAccData}
-                fetchData={fetchData}
-              />
-            }
-          />
-        </Routes>
-      </BrowserRouter>
-
-      {/* {isLoading ? (
+      {isLoading ? (
         <div>Loading...</div>
       ) : connectAccData ? (
         <ConnectedPage
@@ -132,7 +97,7 @@ function App() {
         />
       ) : (
         <ConnectPage profileData={profileData} fetchData={fetchData} />
-      )} */}
+      )}
       <Toaster />
     </div>
   );

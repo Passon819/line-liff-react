@@ -22,6 +22,15 @@
   margin: 0;
 }
 
+.btn.newconn {
+  border: none;
+  background-color: inherit;
+  font-size: 3vw;
+  cursor: pointer;
+  display: inline-block;
+  color: dodgerblue;
+}
+
 .item-connected {
   list-style-type: none;
   padding: 0;
