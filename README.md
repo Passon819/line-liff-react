@@ -1,3 +1,48 @@
+# Descript
+
+This project is use LINE Official Account, LINE login (LIFF) for connect users personal line profile data to our backend system. The objective is to receive news information about those who use our services from our Line Official.
+
+User profile information includes userId for notifications, display name, pictureUrl, statusMessage, and language.
+
+# Using guide
+
+### Settings project
+
+You can create <b>.env</b> file on root of project for
+
+- use running port, to set variable name `PORT`
+- create custom environment variables beginning with `REACT_APP_.` Any other variables except `NODE_ENV` will be ignored
+
+.env file
+
+```sh
+REACT_APP_LIFFID="YOUR-LIFF-ID"
+```
+
+can get from https://developers.line.biz/console/ your LINE Login channel -> LIFF
+
+<b>BaseUrl</b> backend REST API url (./src/utils/BaseUrl.js)
+\*\*check each file fetch path
+
+<b>After deploy</b> this web application, don't forget `allow cors origin` this web url on backend. And paste the deployed web URL on the LIFF `Endpoint URL`.
+\*\* by dafault use ngrok, can remove code 54-56 fetch headers
+
+### Settings LINE
+
+These two channels are required to use <span style="color:red">LINE Login, Messaging API</span> that connects to LINE Official.
+
+- Create LINE OA
+- Setting messaging api
+- Line developers to create providers and chanels LINE Login-Messaging Api
+- Channel settings (don't forget Published LINE Login when using it publicly)
+
+LINE Official Account Manager https://manager.line.biz/account
+create richmenu action type link and paste `LIFF URL` from LIFF
+
+<b>Example:</b>
+
+<br/>
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
